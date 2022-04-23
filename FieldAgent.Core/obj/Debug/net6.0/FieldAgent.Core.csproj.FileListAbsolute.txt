@@ -1,0 +1,12 @@
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\bin\Debug\net6.0\FieldAgent.Core.deps.json
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\bin\Debug\net6.0\FieldAgent.Core.dll
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\bin\Debug\net6.0\FieldAgent.Core.pdb
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\obj\Debug\net6.0\FieldAgent.Core.csproj.AssemblyReference.cache
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\obj\Debug\net6.0\FieldAgent.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\obj\Debug\net6.0\FieldAgent.Core.AssemblyInfoInputs.cache
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\obj\Debug\net6.0\FieldAgent.Core.AssemblyInfo.cs
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\obj\Debug\net6.0\FieldAgent.Core.csproj.CoreCompileInputs.cache
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\obj\Debug\net6.0\FieldAgent.Core.dll
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\obj\Debug\net6.0\refint\FieldAgent.Core.dll
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\obj\Debug\net6.0\FieldAgent.Core.pdb
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.Core\obj\Debug\net6.0\ref\FieldAgent.Core.dll

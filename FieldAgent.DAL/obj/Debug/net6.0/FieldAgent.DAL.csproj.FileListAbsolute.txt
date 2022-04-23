@@ -1,0 +1,15 @@
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\bin\Debug\net6.0\FieldAgent.DAL.deps.json
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\bin\Debug\net6.0\FieldAgent.DAL.dll
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\bin\Debug\net6.0\FieldAgent.DAL.pdb
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\bin\Debug\net6.0\FieldAgent.Core.dll
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\bin\Debug\net6.0\FieldAgent.Core.pdb
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\FieldAgent.DAL.csproj.AssemblyReference.cache
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\FieldAgent.DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\FieldAgent.DAL.AssemblyInfoInputs.cache
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\FieldAgent.DAL.AssemblyInfo.cs
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\FieldAgent.DAL.csproj.CoreCompileInputs.cache
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\FieldAgent.DAL.csproj.CopyComplete
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\FieldAgent.DAL.dll
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\refint\FieldAgent.DAL.dll
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\FieldAgent.DAL.pdb
+C:\Users\Anou Keohavong\source\repos\FieldAgentApp\FieldAgent.DAL\obj\Debug\net6.0\ref\FieldAgent.DAL.dll
