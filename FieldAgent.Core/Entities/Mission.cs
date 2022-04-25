@@ -24,5 +24,6 @@ namespace FieldAgent.Core.Entities
         public decimal OperationalCost { get; set; }
         public Agency Agency { get; set; }
         public List<Agent> Agents { get; set; }
+        public MissionAgent MissionAgent { get; set; }
     }
 }

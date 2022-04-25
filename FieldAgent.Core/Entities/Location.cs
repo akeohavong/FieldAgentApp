@@ -6,31 +6,30 @@ namespace FieldAgent.Core.Entities
     public class Location
     {
         [Key]
-        public int LocationID { get; set; }
+        public int LocationId { get; set; }
 
-        
         [Required]
         [MaxLength(50)]
-        public string LocationName { get; set; }
+        public string? LocationName { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Street1 { get; set; }
+        public string? Street1 { get; set; }
+  
+        [MaxLength(50)]
+        public string? Street2 { get; set; }
         [Required]
         [MaxLength(50)]
-        public string Street2 { get; set; }
-        [Required]
-        [MaxLength(50)]
-        public string City { get; set; }
+        public string? City { get; set; }
         [Required]
         [MaxLength(15)]
-        public string PostalCode { get; set; }
+        public string? PostalCode { get; set; }
         [Required]
         [MaxLength(5)]
-        public string CountryCode { get; set; }
+        public string? CountryCode { get; set; }
       
         [Required]
         public int AgencyID { get; set; }
 
-        public Agency Agency { get; set; }
+        public Agency? Agency { get; set; }
     }
 }

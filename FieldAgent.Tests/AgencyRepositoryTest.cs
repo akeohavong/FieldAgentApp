@@ -37,7 +37,7 @@ namespace FieldAgent.Tests
         public void TestGetAll()
         {
             Response<List<Agency>> actual = db.GetAll();
-            Assert.AreEqual(1, db.GetAll().Data.Count());
+            Assert.AreEqual(3, actual.Data.Count());
         }
 
         [Test]
@@ -55,14 +55,14 @@ namespace FieldAgent.Tests
         public void TestInsert()
         {
             Agency newAgency = new Agency();
-            newAgency.ShortName = "CIA";
-            newAgency.LongName = "Central Intelligence Agency";
+            newAgency.ShortName = "TSETSE";
+            newAgency.LongName = "Top Secret agEncy of Top SEcrets";
 
             Response<Agency> actual = db.Insert(newAgency);
-            Assert.AreEqual(2, db.GetAll().Data.Count());
-            Assert.AreEqual(2, actual.Data.AgencyID);
-            Assert.AreEqual("CIA", actual.Data.ShortName);
-            Assert.AreEqual("Central Intelligence Agency", actual.Data.LongName);
+            Assert.AreEqual(4, db.GetAll().Data.Count());
+            Assert.AreEqual(4, actual.Data.AgencyID);
+            Assert.AreEqual("TSETSE", actual.Data.ShortName);
+            Assert.AreEqual("Top Secret agEncy of Top SEcrets", actual.Data.LongName);
 
         }
         [Test]
@@ -75,9 +75,6 @@ namespace FieldAgent.Tests
             Assert.AreEqual(Fbi.AgencyID, actual.Data.AgencyID);
             Assert.AreEqual(Fbi.ShortName, actual.Data.ShortName);
             Assert.AreEqual(Fbi.LongName, actual.Data.LongName);
-
-
-
         }
 
     }
