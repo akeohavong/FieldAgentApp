@@ -22,7 +22,7 @@ namespace FieldAgent.DAL.EF
                 try
                 {
                     Mission mission = db.Mission.Where(m => m.MissionID == missionId)
-                        .Include(ma => ma.MissionAgent).Include(a => a.Agency).First();
+                        .Include(ma => ma.MissionAgent).First();
 
                     db.Remove(mission);
                     db.SaveChanges();

@@ -1,6 +1,7 @@
-﻿using FieldAgent.Core.Interfaces.DAL;
-using FieldAgent.Web.Models;
+﻿using FieldAgent.Core.Entities;
+using FieldAgent.Core.Interfaces.DAL;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace FieldAgent.Web.Controllers
 {
@@ -24,6 +25,95 @@ namespace FieldAgent.Web.Controllers
             if (result.Success)
             {
                 return Ok(result.Data);  
+            }
+            else
+            {
+                return BadRequest(result.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("/api/[controller]/{agencyId}/agencymissions")]
+        public IActionResult GetByAgency(int agencyId)
+        {
+            var result = _missionRepository.GetByAgency(agencyId);
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            else
+            {
+                return BadRequest(result.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("/api/[controller]/{agentId}/agentmissions")]
+        public IActionResult GetByAgent(int agentId)
+        {
+            var result = _missionRepository.GetByAgent(agentId);
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+            else
+            {
+                return BadRequest(result.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AddMission(int agencyID,string codeName,string notes, DateTime start, DateTime projected )
+        {
+            Mission m = new Mission();
+            m.AgencyID = agencyID;
+            m.CodeName = codeName;
+            m.Notes = notes;
+            m.StartDate = start;
+            m.ProjectedEndDate = projected;
+
+            var result = _missionRepository.Insert(m);
+            if (result.Success)
+            {
+                return CreatedAtRoute(nameof(GetMission), new { id = m.MissionID }, m);
+            }
+            else
+            {
+                
+                return BadRequest(result.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMission(int id)
+        {
+            if (!_missionRepository.Get(id).Success)
+            {
+                return NotFound($"Mission {id} not found");
+            }
+            var result = _missionRepository.Delete(id);
+            if (result.Success)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(result.Message);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult EditMission(Mission mission)
+        {
+            if (!_missionRepository.Get(mission.MissionID).Success)
+            {
+                return NotFound($"Mission {mission.MissionID} not found");
+            }
+            var result = _missionRepository.Update(mission);
+            if (result.Success)
+            {
+                return Ok();
             }
             else
             {

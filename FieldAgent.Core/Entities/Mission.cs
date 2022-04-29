@@ -18,12 +18,12 @@ namespace FieldAgent.Core.Entities
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime ProjectedEndDate { get; set; }
-        [Required]
+        
         public DateTime ActualEndDate { get; set; }
-        [Required]
+       
         public decimal OperationalCost { get; set; }
-        public Agency Agency { get; set; }
-        public List<Agent> Agents { get; set; }
-        public MissionAgent MissionAgent { get; set; }
+        public Agency? Agency { get; set; }
+        public List<Agent>? Agents { get; set; }
+        public MissionAgent? MissionAgent { get; set; }
     }
 }
