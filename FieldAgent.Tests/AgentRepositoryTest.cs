@@ -84,5 +84,16 @@ namespace FieldAgent.Tests
             Assert.AreEqual("Agent 1 deleted.", actual.Message);
         }
 
+        [Test]
+        public void TestGetMissions()
+        {
+            Response<List<Mission>> agent1 = db.GetMissions(1);
+            Assert.IsTrue(agent1.Success);
+            Assert.AreEqual(1, agent1.Data.Count);
+            Response<List<Mission>> agent3 = db.GetMissions(3);
+            Assert.IsTrue(agent3.Success);
+            Assert.AreEqual(2, agent3.Data.Count);
+        }
+
     }
 }

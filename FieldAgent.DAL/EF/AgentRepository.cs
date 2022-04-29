@@ -66,16 +66,21 @@ namespace FieldAgent.DAL.EF
             {
                 try
                 {
-                    Console.WriteLine("Trying....");
-                    var agent = db.Agent.Find(agentId);
-                    Console.WriteLine($"Found {agent.AgentID}");
-                    
-                    //response.Data = missions;
-                    Console.WriteLine("set data to missions");
+                    response.Data = (from m in db.Mission
+                                     join ma in db.MissionAgent on m.MissionID equals ma.MissionID
+                                     where ma.AgentID == agentId
+                                     select m).ToList();
+
+                    if (response.Data == null)
+                    {
+                        response.Message = "No missions found";
+                        response.Success = false;
+                        return response;
+                    }
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine("CATCHING");
+                   
                     response.Success=false;
                     response.Message = e.Message;
                     return response;

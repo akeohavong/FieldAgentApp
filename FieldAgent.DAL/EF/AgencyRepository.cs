@@ -118,7 +118,7 @@ namespace FieldAgent.DAL.EF
                     return response;
                 }
             }
-            response.Success=true;
+            response.Success = true;
             return response;
         }
     }
