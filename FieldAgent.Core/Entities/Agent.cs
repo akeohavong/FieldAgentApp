@@ -20,10 +20,10 @@ namespace FieldAgent.Core.Entities
         [Required]
         public decimal Height { get; set; }
 
-        public List<AgencyAgent> AgencyAgents { get; set; }
-        public List<Mission> Missions { get; set; }
-        public MissionAgent MissionAgent { get; set; }
-        public List<Alias> Aliases { get; set; }
+        public List<AgencyAgent>? AgencyAgents { get; set; }
+        public List<Mission>? Missions { get; set; }
+        public MissionAgent? MissionAgent { get; set; }
+        public List<Alias>? Aliases { get; set; }
 
 
     }

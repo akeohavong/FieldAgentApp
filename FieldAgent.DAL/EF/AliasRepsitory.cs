@@ -43,15 +43,19 @@ namespace FieldAgent.DAL.EF
                 try
                 {
                     response.Data = db.Alias.Find(aliasId);
+                    if(response.Data != null)
+                    {
+                        response.Success = true;
+                    }
                 }
                 catch (Exception ex)
                 {
                     response.Success = false;
                     response.Message = ex.Message;
-                    return response;
+   
                 }
             }
-            response.Success = true;
+            
             return response;
         }
 
@@ -67,7 +71,10 @@ namespace FieldAgent.DAL.EF
                     {
                         response.Message = "No aliases found.";
                         response.Success = false;
-                        return response;
+                    }
+                    else
+                    {
+                        response.Success = true;
                     }
                 }
                 catch (Exception ex)
@@ -76,7 +83,7 @@ namespace FieldAgent.DAL.EF
                     response.Success = false;
                 }
             }
-            response.Success = true;
+            
             return response;
         }
 

@@ -16,6 +16,6 @@ namespace FieldAgent.Core.Entities
         public string Persona { get; set; }
 
 
-        public Agent Agent { get; set; }
+        public Agent? Agent { get; set; }
     }
 }

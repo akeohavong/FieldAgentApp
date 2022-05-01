@@ -18,9 +18,8 @@ namespace FieldAgent.MVC
             var dbf = new DBFactory();
             services.AddControllers();
             services.AddTransient<IMissionRepository>(m => new MissionRepository(dbf));
-            
             services.AddTransient<IAgentRepository>(a => new AgentRepository(dbf));
-            //services.AddTransient<IAliasRepository, AliasRepsitory>();
+            services.AddTransient<IAliasRepository>(a => new AliasRepsitory(dbf));
 
         }
 

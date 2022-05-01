@@ -1,26 +1,29 @@
-﻿using FieldAgent.Core.Entities;
-using FieldAgent.Core.Interfaces.DAL;
+﻿using FieldAgent.Core.Interfaces.DAL;
 using Microsoft.AspNetCore.Mvc;
+using FieldAgent.Core.Entities;
 using System;
 
 namespace FieldAgent.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AgentsController : ControllerBase
+    public class AliasController : ControllerBase
     {
+        
+        private readonly IAliasRepository _aliasRepository;
         private readonly IAgentRepository _agentRepository;
 
-        public AgentsController(IAgentRepository agentRepository)
+        public AliasController(IAliasRepository aliasRepository, IAgentRepository agentRepository)
         {
+            _aliasRepository = aliasRepository;
             _agentRepository = agentRepository;
         }
 
         [HttpGet]
         [Route("/api/[controller]/{id}")]
-        public IActionResult GetAgent(int id)
+        public IActionResult GetAlias(int id)
         {
-            var result = _agentRepository.Get(id);
+            var result = _aliasRepository.Get(id);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -32,10 +35,10 @@ namespace FieldAgent.Web.Controllers
         }
 
         [HttpGet]
-        [Route("/api/[controller]/{agentId}/missions")]
-        public IActionResult GetMissions(int agentId)
+        [Route("/api/[controller]/{agentId}/aliases")]
+        public IActionResult GetByAgent(int agentId)
         {
-            var result = _agentRepository.GetMissions(agentId);
+            var result = _aliasRepository.GetByAgent(agentId);
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -47,16 +50,18 @@ namespace FieldAgent.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddAgent(string first, string last, DateTime dateOfBirth, decimal height)
+        public IActionResult AddAlias(int agentId, string aliasName, string persona)
         {
-            Agent a = new Agent()
+            Alias a = new Alias()
             {
-                FirstName = first,
-                LastName = last,
-                DateOfBirth = dateOfBirth,
-                Height = height
+                AgentID = agentId,
+                AliasName = aliasName,
+                Persona = persona,
+                InterpolID = Guid.NewGuid()
             };
-            var result = _agentRepository.Insert(a);
+
+            var result = _aliasRepository.Insert(a);
+
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -65,17 +70,18 @@ namespace FieldAgent.Web.Controllers
             {
                 return BadRequest(result.Message);
             }
+
         }
 
         [HttpPut]
-        public IActionResult UpdateAgent(Agent agent)
+        public IActionResult UpdateAlias(Alias alias)
         {
-            if (!_agentRepository.Get(agent.AgentID).Success)
+            if(!_aliasRepository.Get(alias.AliasID).Success)
             {
-                return NotFound($"Agent {agent.AgentID} not found");
+                return NotFound($"Alias {alias.AliasID} not found");
             }
-            var result = _agentRepository.Update(agent);
-            if (result.Success)
+            var result = _aliasRepository.Update(alias);
+            if(result.Success)
             {
                 return Ok();
             }
@@ -86,13 +92,13 @@ namespace FieldAgent.Web.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult RemoveAgent(int id)
+        public IActionResult DeleteAlias(int id)
         {
-            if (!_agentRepository.Get(id).Success)
+            if (!_aliasRepository.Get(id).Success)
             {
-                return NotFound($"Agent {id} not found");
+                return NotFound($"Alias {id} not found");
             }
-            var result = _agentRepository.Delete(id);
+            var result = _aliasRepository.Delete(id);
             if (result.Success)
             {
                 return Ok();
@@ -102,9 +108,6 @@ namespace FieldAgent.Web.Controllers
                 return BadRequest(result.Message);
             }
         }
-        
+
     }
-
-    
-
 }

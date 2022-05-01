@@ -27,10 +27,9 @@ namespace FieldAgent.DAL.EF
                     response.Message = $"Agent {agentId} deleted.";
                 }
                 catch (Exception e)
-                {
-                    Console.WriteLine(e.InnerException.Message);
+                { 
                     response.Success = false;
-                    response.Message = $"Error: {e.Message}";
+                    //response.Message = $"Error: {e.Message}";
                     return response;
                 }
 
@@ -47,15 +46,20 @@ namespace FieldAgent.DAL.EF
                 try
                 {
                     response.Data = db.Agent.Find(agentId);
+                    if(response.Data != null)
+                    {
+                        response.Success = true;
+                    }
+                 
                 }
                 catch (Exception e)
                 {
                     response.Success = false;
                     response.Message = e.Message;
-                    return response;
+                    
                 }
             }
-            response.Success = true;
+            
             return response;
         }
 
