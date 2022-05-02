@@ -1,5 +1,6 @@
 ﻿using FieldAgent.Core.Entities;
 using FieldAgent.Core.Interfaces.DAL;
+using FieldAgent.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -66,26 +67,38 @@ namespace FieldAgent.Web.Controllers
         }
 
         [HttpPost, Authorize]
-        public IActionResult AddMission(int agencyID,string codeName,string notes, DateTime start, DateTime projected )
+        public IActionResult AddMission(ViewMission viewMission)
         {
-            Mission m = new Mission();
-            m.AgencyID = agencyID;
-            m.CodeName = codeName;
-            m.Notes = notes;
-            m.StartDate = start;
-            m.ProjectedEndDate = projected;
-
-            var result = _missionRepository.Insert(m);
-            if (result.Success)
+            if (ModelState.IsValid)
             {
-                return CreatedAtRoute(nameof(GetMission), new { id = m.MissionID }, m);
+                Mission m = new Mission()
+                {
+                    AgencyID = viewMission.agencyId,
+                    CodeName = viewMission.codename,
+                    Notes = viewMission.notes,
+                    StartDate = viewMission.startDate,
+                    ProjectedEndDate = viewMission.projectedEndDate,
+                    ActualEndDate = viewMission.actualEndDate,
+                    OperationalCost = viewMission.operationalCost
+                };
+
+                var result = _missionRepository.Insert(m);
+                if (result.Success)
+                {
+                    return CreatedAtRoute(nameof(GetMission), new { id = result.Data.MissionID }, result.Data);
+                }
+                else
+                {
+
+                    return BadRequest(result.Message);
+                }
             }
             else
             {
-                
-                return BadRequest(result.Message);
+                return BadRequest(ModelState);
             }
         }
+
         [HttpDelete("{id}"), Authorize]
         public IActionResult DeleteMission(int id)
         {
@@ -105,21 +118,47 @@ namespace FieldAgent.Web.Controllers
         }
 
         [HttpPut, Authorize]
-        public IActionResult EditMission(Mission mission)
+        public IActionResult EditMission(ViewMission viewMission)
         {
-            if (!_missionRepository.Get(mission.MissionID).Success)
+            if(ModelState.IsValid && viewMission.missionId > 0)
             {
-                return NotFound($"Mission {mission.MissionID} not found");
-            }
-            var result = _missionRepository.Update(mission);
-            if (result.Success)
-            {
-                return Ok();
+                Mission m = new Mission
+                {
+                    MissionID = viewMission.missionId,
+                    AgencyID = viewMission.agencyId,
+                    CodeName = viewMission.codename,
+                    Notes = viewMission.notes,
+                    StartDate = viewMission.startDate,
+                    ProjectedEndDate = viewMission.projectedEndDate,
+                    ActualEndDate = viewMission.actualEndDate,
+                    OperationalCost = viewMission.operationalCost
+                };
+
+                var findMission = _missionRepository.Get(m.MissionID);
+                if (!_missionRepository.Get(m.MissionID).Success)
+                {
+                    return NotFound($"Mission {m.MissionID} not found");
+                }
+                var result = _missionRepository.Update(m);
+                if (result.Success)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(result.Message);
+                }
             }
             else
             {
-                return BadRequest(result.Message);
+                if(viewMission.missionId < 1)
+                {
+                    ModelState.AddModelError("missionId", "Invalid Mission ID");
+                }
+                return BadRequest(ModelState);
             }
         }
+            
+            
     }
 }

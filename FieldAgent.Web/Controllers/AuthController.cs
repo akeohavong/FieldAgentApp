@@ -21,7 +21,7 @@ namespace FieldAgent.Web.Controllers
                 return BadRequest("Invalid request");
             }
 
-            if (user.UserName == "johncitizen" && user.Password == "abc@123")
+            if (user.UserName == "admin" && user.Password == "abc@123")
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KeyForSignInSecret@1234"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -30,7 +30,7 @@ namespace FieldAgent.Web.Controllers
                     issuer: "http://localhost:2000",
                     audience: "http://localhost:2000",
                     claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(30),
+                    expires: DateTime.Now.AddMinutes(60),
                     signingCredentials: signinCredentials
                 );
 

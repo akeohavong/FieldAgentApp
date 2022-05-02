@@ -1,5 +1,7 @@
 ﻿using FieldAgent.Core.Entities;
 using FieldAgent.Core.Interfaces.DAL;
+using FieldAgent.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -16,8 +18,8 @@ namespace FieldAgent.Web.Controllers
             _agentRepository = agentRepository;
         }
 
-        [HttpGet]
-        [Route("/api/[controller]/{id}")]
+        [HttpGet, Authorize]
+        [Route("/api/[controller]/{id}", Name = "GetAgent")]
         public IActionResult GetAgent(int id)
         {
             var result = _agentRepository.Get(id);
@@ -31,7 +33,7 @@ namespace FieldAgent.Web.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [Route("/api/[controller]/{agentId}/missions")]
         public IActionResult GetMissions(int agentId)
         {
@@ -47,45 +49,75 @@ namespace FieldAgent.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddAgent(string first, string last, DateTime dateOfBirth, decimal height)
+        public IActionResult AddAgent(ViewAgent viewAgent)
         {
-            Agent a = new Agent()
+            if (ModelState.IsValid)
             {
-                FirstName = first,
-                LastName = last,
-                DateOfBirth = dateOfBirth,
-                Height = height
-            };
-            var result = _agentRepository.Insert(a);
-            if (result.Success)
-            {
-                return Ok(result.Data);
+                Agent a = new Agent
+                {
+                    AgentID = viewAgent.agentId,
+                    FirstName = viewAgent.firstName,
+                    LastName = viewAgent.lastName,
+                    DateOfBirth = viewAgent.dateOfBirth,
+                    Height = viewAgent.height
+                };
+
+                var result = _agentRepository.Insert(a);
+                if (result.Success)
+                {
+                    return CreatedAtRoute(nameof(GetAgent), new {id = result.Data.AgentID}, result.Data);
+                }
+                else
+                {
+                    return BadRequest(result.Message);
+                }
             }
             else
             {
-                return BadRequest(result.Message);
+                return BadRequest(ModelState);
             }
         }
 
-        [HttpPut]
-        public IActionResult UpdateAgent(Agent agent)
+        [HttpPut, Authorize]
+        public IActionResult UpdateAgent(ViewAgent viewAgent)
         {
-            if (!_agentRepository.Get(agent.AgentID).Success)
+            if(ModelState.IsValid && viewAgent.agentId > 0)
             {
-                return NotFound($"Agent {agent.AgentID} not found");
-            }
-            var result = _agentRepository.Update(agent);
-            if (result.Success)
-            {
-                return Ok();
+                Agent a = new Agent
+                {
+                    AgentID = viewAgent.agentId,
+                    FirstName = viewAgent.firstName,
+                    LastName = viewAgent.lastName,
+                    DateOfBirth = viewAgent.dateOfBirth,
+                    Height = viewAgent.height
+                };
+
+                var findAgent = _agentRepository.Get(a.AgentID);
+                if (!_agentRepository.Get(a.AgentID).Success)
+                {
+                    return NotFound($"Agent {a.AgentID} not found");
+                }
+                var result = _agentRepository.Update(a);
+                if (result.Success)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(result.Message);
+                }
             }
             else
             {
-                return BadRequest(result.Message);
+                if(viewAgent.agentId < 0)
+                {
+                    ModelState.AddModelError("agentId", "Invalid Agent ID");
+                }
+                return BadRequest(ModelState);
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize]
         public IActionResult RemoveAgent(int id)
         {
             if (!_agentRepository.Get(id).Success)

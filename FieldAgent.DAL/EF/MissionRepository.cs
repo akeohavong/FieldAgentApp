@@ -47,15 +47,17 @@ namespace FieldAgent.DAL.EF
                 try
                 {
                     response.Data = db.Mission.Find(missionId);
+                    if(response.Data != null)
+                    {
+                        response.Success = true;
+                    }
                 }
                 catch (Exception e)
                 {
                     response.Success = false;
                     response.Message = e.Message;
-                    return response;
                 }
             }
-            response.Success = true;
             return response;
         }
 
@@ -71,7 +73,10 @@ namespace FieldAgent.DAL.EF
                     {
                         response.Message = "No missions found";
                         response.Success = false;
-                        return response;
+                    }
+                    else
+                    {
+                        response.Success =true;
                     }
                 }
                 catch(Exception e)
@@ -81,7 +86,7 @@ namespace FieldAgent.DAL.EF
                 }
             }
 
-            response.Success = true;
+            response.Success = true;           
             return response;
         }
 
@@ -101,7 +106,10 @@ namespace FieldAgent.DAL.EF
                     {
                         response.Message = "No missions found";
                         response.Success = false;
-                        return response;
+                    }
+                    else
+                    {
+                        response.Success = true;
                     }
                 }
                 catch (Exception e)
@@ -110,30 +118,29 @@ namespace FieldAgent.DAL.EF
                     response.Success = false;
                 }
             }
-
-            response.Success = true;
             return response;
         }
 
         public Response<Mission> Insert(Mission mission)
         {
-            Response<Mission> response = new();
+            Response<Mission> response = new Response<Mission>();
             using (var db = dbf.GetDbContext())
             {
                 try
                 {
                     response.Data = db.Mission.Add(mission).Entity;
                     db.SaveChanges();
+                    response.Success = true;
                     response.Message = $"Mission {mission.MissionID} added.";
                 }
                 catch (Exception e)
                 {
                     response.Success = false;
                     response.Message = e.Message;
-                    return response;
+                  
                 }
             }
-            response.Success = true;
+            
             return response;
         }
 
@@ -147,16 +154,17 @@ namespace FieldAgent.DAL.EF
                 {
                     db.Mission.Update(mission);
                     db.SaveChanges();
+                    response.Success=true;
                     response.Message = $"Mission {mission.MissionID} updated.";
                 }
                 catch (Exception e)
                 {
                     response.Success = false;
                     response.Message = e.Message;
-                    return response;
+              
                 }
             }
-            response.Success = true;
+        
             return response;
         }
     }

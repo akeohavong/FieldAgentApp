@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using FieldAgent.Core.Entities;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using FieldAgent.Web.Models;
 
 namespace FieldAgent.Web.Controllers
 {
@@ -19,10 +21,11 @@ namespace FieldAgent.Web.Controllers
             _agentRepository = agentRepository;
         }
 
-        [HttpGet]
-        [Route("/api/[controller]/{id}")]
+        [HttpGet, Authorize]
+        [Route("/api/[controller]/{id}", Name = "GetAlias")]
         public IActionResult GetAlias(int id)
         {
+           
             var result = _aliasRepository.Get(id);
             if (result.Success)
             {
@@ -34,7 +37,7 @@ namespace FieldAgent.Web.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [Route("/api/[controller]/{agentId}/aliases")]
         public IActionResult GetByAgent(int agentId)
         {
@@ -49,49 +52,78 @@ namespace FieldAgent.Web.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult AddAlias(int agentId, string aliasName, string persona)
+        [HttpPost, Authorize]
+        public IActionResult AddAlias(ViewAlias viewAlias)
         {
-            Alias a = new Alias()
+            if (ModelState.IsValid)
             {
-                AgentID = agentId,
-                AliasName = aliasName,
-                Persona = persona,
-                InterpolID = Guid.NewGuid()
-            };
+                Alias a = new Alias()
+                {
+                    AgentID = viewAlias.agentId,
+                    AliasName = viewAlias.aliasName,
+                    Persona = viewAlias.persona,
+                    InterpolID = Guid.NewGuid()
+                };
 
-            var result = _aliasRepository.Insert(a);
+                var result = _aliasRepository.Insert(a);
 
-            if (result.Success)
-            {
-                return Ok(result.Data);
+                if (result.Success)
+                {
+                    return CreatedAtRoute(nameof(GetAlias), new {id = result.Data.AliasID}, result.Data);
+                }
+                else
+                {
+                    return BadRequest(result.Message);
+                }
             }
             else
             {
-                return BadRequest(result.Message);
+                return BadRequest(ModelState);
             }
+            
 
         }
 
-        [HttpPut]
-        public IActionResult UpdateAlias(Alias alias)
+        [HttpPut, Authorize]
+        public IActionResult UpdateAlias(ViewAlias viewAlias)
         {
-            if(!_aliasRepository.Get(alias.AliasID).Success)
+            if(ModelState.IsValid && viewAlias.aliasId > 0)
             {
-                return NotFound($"Alias {alias.AliasID} not found");
-            }
-            var result = _aliasRepository.Update(alias);
-            if(result.Success)
-            {
-                return Ok();
+                Alias a = new Alias()
+                {
+                    AliasID = viewAlias.aliasId,
+                    AgentID = viewAlias.agentId,
+                    AliasName = viewAlias.aliasName,
+                    Persona = viewAlias.persona,
+                    InterpolID = Guid.NewGuid()
+                };
+
+                var findAlias = _aliasRepository.Get(a.AliasID);
+                if (!_aliasRepository.Get(a.AliasID).Success)
+                {
+                    return NotFound($"Alias {a.AliasID} not found");
+                }
+                var result = _aliasRepository.Update(a);
+                if (result.Success)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(result.Message);
+                }
             }
             else
             {
-                return BadRequest(result.Message);
+                if(viewAlias.aliasId < 1)
+                {
+                    ModelState.AddModelError("aliasId", "Invalid Alias ID");
+                }
             }
+            return BadRequest(ModelState);  
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize]
         public IActionResult DeleteAlias(int id)
         {
             if (!_aliasRepository.Get(id).Success)
