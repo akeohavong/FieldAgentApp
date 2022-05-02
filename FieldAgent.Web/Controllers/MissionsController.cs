@@ -1,5 +1,6 @@
 ﻿using FieldAgent.Core.Entities;
 using FieldAgent.Core.Interfaces.DAL;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -16,7 +17,7 @@ namespace FieldAgent.Web.Controllers
             _missionRepository = missionRepository;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [Route("/api/[controller]/{id}", Name="GetMission")]
         public IActionResult GetMission(int id)
         {
@@ -32,7 +33,7 @@ namespace FieldAgent.Web.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [Route("/api/[controller]/{agencyId}/agencymissions")]
         public IActionResult GetByAgency(int agencyId)
         {
@@ -48,7 +49,7 @@ namespace FieldAgent.Web.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [Route("/api/[controller]/{agentId}/agentmissions")]
         public IActionResult GetByAgent(int agentId)
         {
@@ -64,7 +65,7 @@ namespace FieldAgent.Web.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public IActionResult AddMission(int agencyID,string codeName,string notes, DateTime start, DateTime projected )
         {
             Mission m = new Mission();
@@ -85,7 +86,7 @@ namespace FieldAgent.Web.Controllers
                 return BadRequest(result.Message);
             }
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize]
         public IActionResult DeleteMission(int id)
         {
             if (!_missionRepository.Get(id).Success)
@@ -103,7 +104,7 @@ namespace FieldAgent.Web.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut, Authorize]
         public IActionResult EditMission(Mission mission)
         {
             if (!_missionRepository.Get(mission.MissionID).Success)
